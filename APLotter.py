@@ -2,7 +2,7 @@
 ####  University of Washington  ####
 ####  Advanced Propulsion Lab   ####
 ####       Hans Martin          ####
-####  Last Edit: July, 2018   ####
+####  Last Edit: July 30, 2018  ####
 ####################################
 
 
@@ -35,7 +35,7 @@ class Window(QDialog):
         super(Window, self).__init__(parent)
 
         self.setGeometry(100,115,250,150)
-        self.setWindowTitle('APLotter 1.0')
+        self.setWindowTitle('APLotter 1.0.1')
         self.setWindowIcon(QIcon('assets/ic_aplotter.png'))
 
         self.buttonLP = QPushButton('Plot Langmuir Data', self)
@@ -100,6 +100,7 @@ class LPlot(QDialog):
             self.data_dic.update({folder:[]})
             for shot in os.listdir(folder):
                 self.data_dic[folder].append([np.ndfromtxt(folder+'/'+shot, delimiter = '\t')])
+                
 
     def get_rms_dic(self):
 
@@ -129,11 +130,12 @@ class LPlot(QDialog):
         ax.set_title('Plasma Density')
         ax.minorticks_on()
         ax.grid(which = 'major', alpha = 0.5); ax.grid(which = 'minor', alpha = 0.2)
+        time_axis = np.linspace(1,10000, num = 10000)/10 
 
         for key in self.avg_dic.keys():
             for i in self.dens_dic[key]:
                 data = i
-                ax.plot(data, '-')
+                ax.plot(time_axis,data, '-')
                 self.canvas.draw()
                 ax.legend(self.avg_dic,  prop={'size': 7})
 
